@@ -63,10 +63,12 @@ Detailed Breakdown of Manual Loss Components
     Implementation: Calculated manually as the squared error difference between intermediate feature maps of the target content image and the synthesized canvas.
     Purpose: Ensures the structural and semantic layout of the original content image remains intact without depending on built-in metrics.
   2.Aesthetic Style Deviation (AestheticDeviationMetric)
+  
     Implementation: Computes Gram matrices explicitly from feature activations using Einstein summation (tf.linalg.einsum) divided by the spatial dimensions, measuring feature correlations by hand.
     Purpose: Captures texture, brushstrokes, and chromatic patterns of the reference art style entirely through custom matrix math.
     
   3.Spatial Smoothness Regularization (SpatialSmoothnessPenalty)
+  
    Implementation: Calculates Total Variation (TV) loss manually via finite differences across neighboring pixel coordinates (horizontal and vertical shifts).
    Purpose: Eliminates high-frequency noise and grid artifacts on the synthesized canvas without relying on external regularization wrappers.
    
