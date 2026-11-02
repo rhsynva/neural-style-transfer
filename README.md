@@ -56,22 +56,27 @@ class GlobalObjectiveManager:
         total_objective = (self.alpha * c_loss) + (self.beta * s_loss) + (self.gamma * tv_loss)
         
         return total_objective
+        
 Detailed Breakdown of Manual Loss Components
   1.Semantic Preservation (SemanticPreservationMetric)
+  
     Implementation: Calculated manually as the squared error difference between intermediate feature maps of the target content image and the synthesized canvas.
     Purpose: Ensures the structural and semantic layout of the original content image remains intact without depending on built-in metrics.
   2.Aesthetic Style Deviation (AestheticDeviationMetric)
-   Implementation: Computes Gram matrices explicitly from feature activations using Einstein summation (tf.linalg.einsum) divided by the spatial dimensions, measuring feature correlations by hand.
-   Purpose: Captures texture, brushstrokes, and chromatic patterns of the reference art style entirely through custom matrix math.
+    Implementation: Computes Gram matrices explicitly from feature activations using Einstein summation (tf.linalg.einsum) divided by the spatial dimensions, measuring feature correlations by hand.
+    Purpose: Captures texture, brushstrokes, and chromatic patterns of the reference art style entirely through custom matrix math.
+    
   3.Spatial Smoothness Regularization (SpatialSmoothnessPenalty)
    Implementation: Calculates Total Variation (TV) loss manually via finite differences across neighboring pixel coordinates (horizontal and vertical shifts).
    Purpose: Eliminates high-frequency noise and grid artifacts on the synthesized canvas without relying on external regularization wrappers.
-   Repository Structure
+   
+ Repository Structure
    construct_vision_tensor: Handles raw image loading, dynamic resolution scaling, and VGG19 input normalization.
    AestheticPerceptionModel: Subclasses tf.keras.Model to route feature maps from frozen VGG19 convolutional blocks.
    Manual Loss Modules (SemanticPreservationMetric, AestheticDeviationMetric, SpatialSmoothnessPenalty): Custom classes containing raw tensor equations for content, style, and smoothing.
    GlobalObjectiveManager: Aggregates the hand-crafted loss terms using configurable weighting coefficients ($\alpha, \beta, \gamma$).
    StyleTransferOrchestrator: Controls tf.GradientTape optimization loops, learning rate updates, and pixel clipping constraints.
+   
 Usage
 1.Open the implementation notebook in an environment with TensorFlow and a GPU runtime enabled.
 2.Supply your target content image and style reference image paths.
